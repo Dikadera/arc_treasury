@@ -35,6 +35,7 @@ import { RebalanceButton } from "@/components/rebalance-button"
 import { SectionCards } from "@/components/section-cards"
 import { SendButton } from "@/components/send-button"
 import { TransferDialog } from "@/components/transfer-dialog"
+import { NewVaultDialog } from "@/components/new-vault-dialog"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -148,6 +149,7 @@ export default function Page() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
   const [isCreateWalletOpen, setCreateWalletOpen] = useState(false)
+  const [isCreateVaultOpen, setCreateVaultOpen] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [dateRange] = useDateRange(7)
@@ -501,6 +503,10 @@ export default function Page() {
         open={isCreateWalletOpen}
         onOpenChange={setCreateWalletOpen}
       />
+      <NewVaultDialog
+        open={isCreateVaultOpen}
+        onOpenChange={setCreateVaultOpen}
+      />
 
       {/* Header */}
       <div className="flex flex-col mb-4">
@@ -547,6 +553,10 @@ export default function Page() {
         <Button variant="outline" onClick={() => setCreateWalletOpen(true)}>
           <IconWallet className="mr-2 size-4" />
           New wallet
+        </Button>
+        <Button variant="outline" onClick={() => setCreateVaultOpen(true)}>
+          <IconPlus className="mr-2 size-4" />
+          Create Vault
         </Button>
       </div>
 
