@@ -19,6 +19,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Monitor endpoint to check the status of bridge transfers
  * With Bridge Kit's automatic forwarding, transfers are handled automatically:
