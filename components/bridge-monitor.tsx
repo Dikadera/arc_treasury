@@ -35,11 +35,10 @@ import { useMemo } from "react";
 
 export function BridgeMonitor() {
   const [pendingTxs, setPendingTxs] = useState<PendingTransaction[]>([]);
-  // Use useMemo to ensure supabase client instance remains stable across renders
-  // to prevent unnecessary effect re-execution
-  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    const supabase = createClient();
+    
     const checkPendingTransactions = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -99,7 +98,7 @@ export function BridgeMonitor() {
     const interval = setInterval(checkPendingTransactions, 30000);
 
     return () => clearInterval(interval);
-  }, [supabase]);
+  }, []);
 
   if (pendingTxs.length === 0) return null;
 

@@ -52,7 +52,6 @@ export function NewVaultDialog({
   onOpenChange: (open: boolean) => void
 }) {
   const [isLoading, setIsLoading] = useState(false)
-  const supabase = createClient()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema) as any,
@@ -67,6 +66,7 @@ export function NewVaultDialog({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
     try {
+      const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error("Not authenticated")
 
