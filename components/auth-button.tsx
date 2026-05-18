@@ -18,8 +18,38 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function AuthButton() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const signOut = async () => {
+    "use server";
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+    return redirect("/");
+  };
+
+  if (user) {
+    return (
+      <div className="flex gap-2 items-center">
+        <span className="text-sm font-medium mr-2">
+          {user.email}
+        </span>
+        <Button asChild size="sm" variant={"outline"}>
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
+        <form action={signOut}>
+          <Button type="submit" size="sm" variant={"default"}>
+            Sign out
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="flex gap-2">
       <Button asChild size="sm" variant={"outline"}>
